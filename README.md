@@ -11,7 +11,7 @@ Requires Node.js 18.x.
 
 1. Sign up to [Neon](https://neon.tech/github/) to access serverless Postgres by creating a project.
 1. Sign up to [Clerk](https://clerk.com/) for user management and authentication. Create an application that supports sign in using a providers such as Discord and Google;
-1. Clone this repository, install dependencies, and prepare a `.env.local` file:
+1. Clone this repository, install dependencies, and prepare a _.env.local_ file:
     ```bash
     git clone $REPO_URL neon-clerk-vercel
 
@@ -21,7 +21,11 @@ Requires Node.js 18.x.
 
     cp .env.example .env.local
     ```
-1. Replace the Neon (`DATABASE_URL`) and Clerk variables with the values from your accounts on each platform. Note that the `CLERK_WEBHOOK_SECRET` will be explained later.
+1. Replace:
+    *  `DATABASE_URL` - With your Neon [connection string](https://neon.tech/docs/connect/connect-from-any-app)`
+    * `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - With the value from the **API Keys** section in the Clerk dashboard.
+    * `CLERK_SECRET_KEY` - With the value from the **API Keys** section in the Clerk dashboard.
+    * `CLERK_WEBHOOK_SECRET` - This will be obtained later.
 1. Generate and push the database schemas, and insert seed data:
     ```bash
     npm run drizzle:generate -- dotenv_config_path=.env.local
@@ -46,7 +50,7 @@ local network as a public HTTPS endpoint during local development. You can use
     npx localtunnel@2.0 –port 3000 -s $USER
     ```
 1. Go to [dashboard.clerk.com](https://dashboard.clerk.com) and select your application.
-1. Navigate to the webhooks screen.
+1. Navigate to the **Webhooks** screen.
 1. Click the **Add Endpoint** button.
 1. Enter the public HTTPS URL provided by localtunnel followed by _/api/webhooks/clerk_ in the **Endpoint URL** field.
 1. Under the **Message Filtering** section select the user events.
