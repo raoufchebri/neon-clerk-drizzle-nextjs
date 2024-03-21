@@ -1,14 +1,15 @@
-import { UserButton } from "@clerk/nextjs";
 import { db } from "@/app/db";
 import { ElementVotes } from "@/app/db/schema";
 import { eq } from 'drizzle-orm'
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation'
+import { log } from "../log";
 
 export const dynamic = 'force-dynamic';
 
 const voteAndGetData = async (elementId?: string) => {
   if (!elementId) {
+    log.warn('a user visited /voted without specifying an elementId')
     return redirect('/')
   }
 
@@ -27,6 +28,7 @@ const voteAndGetData = async (elementId?: string) => {
 
   if (existingVote[0]) {
     // User has already voted, update it
+    log.info(`updating user ${user.id} vote`)
     return db
       .update(ElementVotes)
       .set({
@@ -34,6 +36,14 @@ const voteAndGetData = async (elementId?: string) => {
       })
       .where(eq(ElementVotes.userId, user.id))
       .returning()
+  } else {
+    log.info(`insert vote for user ${user.id}`)
+    return db
+      .insert(ElementVotes)
+      .values({
+        userId: user.id,
+        elementId: parseInt(elementId)
+      }).returning()
   }
 };
 

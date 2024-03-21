@@ -1,9 +1,7 @@
-import { UserButton } from "@clerk/nextjs";
 import { db } from "./db";
-import { Element, ElementVote, ElementVotes, Elements } from "./db/schema";
+import { ElementVotes, Elements } from "./db/schema";
 import { eq, sql } from 'drizzle-orm'
 import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation'
 import { ElementComponent } from "./components/element";
 import Link from 'next/link'
 
