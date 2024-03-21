@@ -2,6 +2,8 @@
 
 Companion repository for [this article on the Neon blog (COMING SOON)](https://neon.tech/blog).
 
+A live preview of this application is available at https://neon-clerk-drizzle-nextjs.vercel.app/.
+
 A sample application that demonstrates how to use [Clerk](https://clerk.com/) authentication with [Next.js](https://nextjs.org/), and store user identifiers in [Neon's Serverless Postgres](https://neon.tech/github/) using [Drizzle ORM](https://orm.drizzle.team/).
 
 ## Local Development
