@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Neon, Clerk, and Vercel Example
 
-## Getting Started
+Companion repository for [this article on the Neon blog (COMING SOON)](https://neon.tech/blog).
 
-First, run the development server:
+A sample application that demonstrates how to use Clerk for authentication and
+user managment in Next.js, with Neon's Serverless Postgres and Drizzle ORM.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Local Development
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires Node.js 18.x. 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Sign up to [Neon](https://neon.tech/github/) to access serverless Postgres by creating a project.
+1. Sign up to [Clerk](https://clerk.com/) for user management and authentication. Create an application that supports sign in using a providers such as Discord and Google;
+1. Clone this repository, install dependencies, and prepare a `.env.local` file:
+    ```bash
+    git clone $REPO_URL neon-clerk-vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    cd neon-clerk-vercel
+    
+    npm install
 
-## Learn More
+    cp .env.example .env.local
+    ```
+1. Replace the Neon (`DATABASE_URL`) and Clerk variables with the values from your accounts on each platform. Note that the `CLERK_WEBHOOK_SECRET` will be explained later.
+    > [!TIP]
+    > Consider creating a separate [Neon database branch](https://neon.tech/docs/manage/branches#create-a-branch) for your local development.
+1. Generate and push the database schemas, and insert seed data:
+    ```bash
+    npm run drizzle:generate -- dotenv_config_path=.env.local
+    npm run drizzle:push -- dotenv_config_path=.env.local
+    npm run seed -- dotenv_config_path=.env.local
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+Since this application uses Clerk webhooks to create user references in the
+Neon Postgres database, you need a way to expose the application from your
+local network as a public HTTPS endpoint during local development. You can use
+[localtunnel](https://www.npmjs.com/package/localtunnel) to do this.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Open a terminal and start the Next.js application in development mode:
+    ```bash
+    npm run dev
+    ```
+1. Open another terminal and run the following command to obtain a public HTTPS URL to access your Next.js application:
+    ```bash
+    npx localtunnel@2.0 –port 3000 -s $USER
+    ```
+1. Go to [dashboard.clerk.com](https://dashboard.clerk.com) and select your application.
+1. Navigate to the webhooks screen.
+1. Click the **Add Endpoint** button.
+1. Enter the public HTTPS URL provided by localtunnel followed by _/api/webhooks/clerk_ in the **Endpoint URL** field.
+1. Under the **Message Filtering** section select the user events.
+1. Click the **Create** button.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+You can now visit http://localhost:3000/ to verify the application is working
+end-to-end. The application should display a login page, and once you've logged
+in your user's ID should be inserted into your Postgres users table a few
+seconds later.
 
-## Deploy on Vercel
+## Vercel Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+TODO: Vercel Deploy.
