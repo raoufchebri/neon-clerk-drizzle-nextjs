@@ -22,14 +22,15 @@ Requires Node.js 18.x.
     cp .env.example .env.local
     ```
 1. Replace the Neon (`DATABASE_URL`) and Clerk variables with the values from your accounts on each platform. Note that the `CLERK_WEBHOOK_SECRET` will be explained later.
-    > [!TIP]
-    > Consider creating a separate [Neon database branch](https://neon.tech/docs/manage/branches#create-a-branch) for your local development.
 1. Generate and push the database schemas, and insert seed data:
     ```bash
     npm run drizzle:generate -- dotenv_config_path=.env.local
     npm run drizzle:push -- dotenv_config_path=.env.local
     npm run seed -- dotenv_config_path=.env.local
     ```
+
+> [!TIP]
+> Consider creating a separate [Neon database branch(es)](https://neon.tech/docs/manage/branches#create-a-branch) for your development environment(s).
 
 Since this application uses Clerk webhooks to create user references in the
 Neon Postgres database, you need a way to expose the application from your
