@@ -21,7 +21,7 @@ Requires Node.js 18.x.
 
     cp .env.example .env.local
     ```
-1. Replace:
+1. Replace the values in _.env.local_ as follows:
     *  `DATABASE_URL` - With your Neon [connection string](https://neon.tech/docs/connect/connect-from-any-app)`
     * `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - With the value from the **API Keys** section in the Clerk dashboard.
     * `CLERK_SECRET_KEY` - With the value from the **API Keys** section in the Clerk dashboard.
