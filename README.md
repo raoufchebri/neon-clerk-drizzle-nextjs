@@ -1,6 +1,6 @@
 # Neon, Clerk, and Vercel Example
 
-Companion repository for [this article on the Neon blog (COMING SOON)](https://neon.tech/blog).
+Companion repository for [this article on the Neon blog](https://neon.tech/blog/nextjs-authentication-using-clerk-drizzle-orm-and-neon).
 
 A live preview of this application with Discord login is available at https://neon-clerk-drizzle-nextjs.vercel.app/.
 
